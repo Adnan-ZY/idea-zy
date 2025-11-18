@@ -1,0 +1,47 @@
+/* * This file is required to link custom CSS if necessary. 
+ * For this implementation, all layout and style are handled by Tailwind in index.html,
+ * and the motion is handled by script.js using requestAnimationFrame.
+ */
+
+/* * A utility class to ensure the image container doesn't have an awkward 
+ * default height on mobile before the main grid takes over. 
+ */
+.scrolling-title-container {
+    overflow: hidden;
+}
+
+/* * The JavaScript adds a transform property directly, overriding this. 
+ * This is left here only to demonstrate where custom, non-Tailwind CSS would go. 
+ */
+.scrolling-title-content span {
+    /* Ensures text blocks stay visually distinct */
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
+}
+
+/* Feature banner tweaks */
+#featureBanner { 
+        position: sticky;
+        top: 0;
+        z-index: 60;
+}
+
+@media (max-width: 640px) {
+    #featureBanner .max-w-6xl { padding-left: 8px; padding-right: 8px; }
+    #featureBanner { font-size: 13px; }
+}
+
+/* Optional: If you wanted a pure CSS implementation */
+/*
+@keyframes scrollLeft {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(-50%); // Scroll half of the duplicated content
+    }
+}
+
+.scrolling-title-content.css-mode {
+    animation: scrollLeft 30s linear infinite;
+}
+*/
