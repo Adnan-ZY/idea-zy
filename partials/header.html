@@ -1,0 +1,82 @@
+<style>
+  /* SOLUTION: Converted Tailwind @apply to standard CSS 
+     so the browser understands it without a build step.
+  */
+
+  /* Crucial styles for the Hamburger lines */
+  .hamburger-line {
+    position: absolute;
+    left: 0;
+    display: block;
+    width: 100%;
+    height: 2px; /* h-0.5 equivalent */
+    background-color: black;
+    transition: all 300ms ease-in-out;
+  }
+
+  /* State 1: Top line rotates 45deg into center */
+  button.open .line-1 {
+    top: 50%;
+    transform: translateY(-50%) rotate(45deg);
+  }
+
+  /* State 2: Middle line fades out */
+  button.open .line-2 {
+    opacity: 0;
+  }
+
+  /* State 3: Bottom line rotates -45deg into center */
+  button.open .line-3 {
+    top: 50%;
+    transform: translateY(-50%) rotate(-45deg);
+  }
+
+  /* Menu Slide Animation State */
+  /* When 'active' class is added by JS, slide down and show */
+  #mobileMenu.active {
+      transform: translateY(0);
+      opacity: 1;
+      pointer-events: auto;
+  }
+</style>
+
+<header id="header" class="relative z-50 opacity-0 -translate-y-4 transition-all duration-700 py-4 border-b  ">
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center">
+
+        <a href="/" class="flex items-center z-50">
+          <img src="assets/images/logo.png" alt="Logo"
+               class="h-10 w-auto hover:scale-110 cursor-pointer opacity-0 scale-90 transition-all duration-700 delay-300 logo-animate">
+        </a>
+
+        <nav class="hidden sm:flex space-x-8 text-gray-700 font-semibold text-sm uppercase tracking-wider">
+          <a class="nav-item transition duration-200 hover:text-black cursor-pointer opacity-0 translate-y-2">About</a>
+          <a class="nav-item transition duration-200 hover:text-black cursor-pointer opacity-0 translate-y-2">Services</a>
+          <a class="nav-item transition duration-200 hover:text-black cursor-pointer opacity-0 translate-y-2">Portfolio</a>
+          <a class="nav-item transition duration-200 hover:text-black cursor-pointer opacity-0 translate-y-2">Contact</a>
+        </nav>
+
+        <button id="menuBtn" class="sm:hidden relative w-6 h-5 z-50 focus:outline-none">
+            <span class="hamburger-line line-1 top-0"></span>
+            <span class="hamburger-line line-2 top-1/2 -translate-y-1/2"></span>
+            <span class="hamburger-line line-3 bottom-0"></span>
+        </button>
+
+      </div>
+  </div>
+</header>
+
+<nav id="mobileMenu"
+     class="fixed inset-0 z-40 flex flex-col items-center justify-center
+            bg-[#1d1d1f]/95 backdrop-blur-lg
+            text-white
+            -translate-y-full opacity-0 pointer-events-none
+            transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]">
+
+    <div class="flex flex-col items-center space-y-6 text-2xl font-medium tracking-tight pt-20">
+        <a href="#" class="mobile-link hover:text-gray-300 transition-colors">About</a>
+        <a href="#" class="mobile-link hover:text-gray-300 transition-colors">Services</a>
+        <a href="#" class="mobile-link hover:text-gray-300 transition-colors">Portfolio</a>
+        <a href="#" class="mobile-link hover:text-gray-300 transition-colors">Contact</a>
+    </div>
+</nav>
