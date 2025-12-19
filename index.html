@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title></title>
+    <!-- Preload critical images -->
+    <link rel="preload" href="assets/images/test.jpg" as="image">
+    <link rel="preload" href="assets/images/1.png" as="image">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="assets/css/styles.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
@@ -630,17 +633,32 @@ html {
     // Prevent scrolling during preload
     document.body.style.overflow = 'hidden';
 
-    // Create a timeline
-    const tl = gsap.timeline({
-        onComplete: () => {
-            // Re-enable scrolling
-            document.body.style.overflow = '';
-        }
+    // Preload critical images
+    const criticalImages = [
+        'assets/images/test.jpg',
+        'assets/images/1.png'
+    ];
+    
+    let imagesLoaded = 0;
+    let allImagesLoaded = false;
+    
+    const imagePromises = criticalImages.map(src => {
+        return new Promise((resolve) => {
+            const img = new Image();
+            img.onload = img.onerror = () => {
+                imagesLoaded++;
+                resolve();
+            };
+            img.src = src;
+        });
     });
 
+    // Create loading animation timeline
+    const loadingTl = gsap.timeline();
+    
     // Phase A: Loading bar and counter animation from 0 to 100
     const counterObj = { value: 0 };
-    tl.to([counterObj, loadingBar], {
+    loadingTl.to([counterObj, loadingBar], {
         value: 100,
         width: '100%',
         duration: 2,
@@ -651,85 +669,100 @@ html {
     });
 
     // Animate the highlight to move from left to right
-    tl.to(loadingHighlight, {
+    loadingTl.to(loadingHighlight, {
         left: '100%',
         duration: 1.7,
         ease: 'power2.inOut'
     }, '<');
 
-    // Phase B: Hide loading elements and show brand text
-    tl.to(preloaderContent, {
-        opacity: 0,
-        scale: 0.9,
-        duration: 0.35,
-        ease: 'power2.in'
-    }, '+=0.2');
+    // Wait for both: loading animation AND images to load
+    Promise.all([
+        imagePromises,
+        new Promise(resolve => {
+            loadingTl.eventCallback('onComplete', resolve);
+        })
+    ].flat()).then(() => {
+        // Continue with the rest of the animation
+        const revealTl = gsap.timeline({
+            onComplete: () => {
+                document.body.style.overflow = '';
+            }
+        });
 
-    // Show brand text wrapper
-    tl.set(brandWrapper, {
-        opacity: 1,
-        visibility: 'visible'
+        // Phase B: Hide loading elements and show brand text
+        revealTl.to(preloaderContent, {
+            opacity: 0,
+            scale: 0.9,
+            duration: 0.35,
+            ease: 'power2.in'
+        }, '+=0.2');
+
+        // Show brand text wrapper
+        revealTl.set(brandWrapper, {
+            opacity: 1,
+            visibility: 'visible'
+        });
+
+        // Left-to-right reveal using clip-path
+        revealTl.fromTo(brandText, {
+            clipPath: 'polygon(0% 0%, 0% 0%, 0% 100%, 0% 100%)'
+        }, {
+            clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)',
+            duration: 1.6,
+            ease: 'power3.inOut'
+        });
+
+        // Pause on brand text
+        revealTl.to({}, { duration: 0.3 });
+
+        // Set big X at center of screen
+        gsap.set(bigX, {
+            left: '50%',
+            top: '50%',
+            xPercent: -50,
+            yPercent: -50,
+            scale: 0.3,
+            opacity: 0
+        });
+
+        // Both animations synced
+        revealTl.to(brandWrapper, {
+            opacity: 0,
+            duration: 0.45,
+            ease: 'linear'
+        });
+        
+        revealTl.fromTo(bigX, {
+            opacity: 0,
+            scale: 0.3
+        }, {
+            opacity: 1,
+            scale: 1,
+            duration: 0.45,
+            ease: 'linear'
+        }, '<');
+
+        // Brief pause
+        revealTl.to({}, { duration: 0.2 });
+
+        // Phase C: Exit - X fades out, then preloader fades out to reveal website
+        revealTl.to(bigX, {
+            opacity: 0,
+            scale: 1.2,
+            duration: 0.7,
+            ease: 'power2.out'
+        });
+        
+        revealTl.to(preloader, {
+            opacity: 0,
+            duration: 1,
+            ease: 'power2.inOut',
+            onComplete: () => {
+                preloader.style.display = 'none';
+                bigX.style.display = 'none';
+            }
+        }, '-=0.3');
     });
-
-    // Left-to-right reveal using clip-path
-    tl.fromTo(brandText, {
-        clipPath: 'polygon(0% 0%, 0% 0%, 0% 100%, 0% 100%)'
-    }, {
-        clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)',
-        duration: 1.6,
-        ease: 'power3.inOut'
-    });
-
-    // Pause on brand text
-    tl.to({}, { duration: 0.3 });
-
-    // Set big X at center of screen
-    gsap.set(bigX, {
-        left: '50%',
-        top: '50%',
-        xPercent: -50,
-        yPercent: -50,
-        scale: 0.3,
-        opacity: 0
-    });
-
-    // Both animations synced
-    tl.to(brandWrapper, {
-        opacity: 0,
-        duration: 0.45,
-        ease: 'linear'
-    });
-    
-    tl.fromTo(bigX, {
-        opacity: 0,
-        scale: 0.3
-    }, {
-        opacity: 1,
-        scale: 1,
-        duration: 0.45,
-        ease: 'linear'
-    }, '<');
-
-    // Brief pause
-    tl.to({}, { duration: 0.2 });
-
-    // Phase C: Exit - X fades out, then preloader fades out to reveal website
-    tl.to(bigX, {
-        opacity: 0,
-        scale: 1.2,
-        duration: 0.7,
-        ease: 'power2.out'
-    });
-    
-    tl.to(preloader, {
-        opacity: 0,
-        duration: 1,
-        ease: 'power2.inOut',
-        onComplete: () => {
-            preloader.style.display = 'none';
-            bigX.style.display = 'none';
-        }
-    }, '-=0.3');
 })();
 </script>
 
