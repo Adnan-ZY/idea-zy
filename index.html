@@ -20,6 +20,7 @@ html {
 
         /* Setting a modern sans-serif font */
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@900&display=swap');
         body {
             font-family: 'Inter', sans-serif;
             min-height: 100vh;
@@ -47,9 +48,152 @@ html {
             @media (prefers-reduced-motion: reduce) {
             .animate-fade-left, .animate-fade-up, .animate-float-slow { animation: none !important; }
             }
+
+        /* Preloader Styles */
+        #preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: #2D4EF5;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        #preloader-content {
+            text-align: center;
+            position: relative;
+        }
+
+        #logo-icon {
+            margin: 0 auto 60px;
+            position: relative;
+            font-size: 8rem;
+            font-weight: 400;
+            color: #ffffff;
+            line-height: 1;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        #loading-bar-container {
+            width: 250px;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.2);
+            margin: 50px auto 0;
+            position: relative;
+        }
+
+        #loading-bar {
+            width: 0%;
+            height: 100%;
+            background: #ffffff;
+            position: absolute;
+            left: 0;
+            top: 0;
+            overflow: visible;
+        }
+
+        #loading-highlight {
+            position: absolute;
+            width: 40px;
+            height: 8px;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            background: radial-gradient(ellipse at center, rgba(255,255,255,1) 0%, rgba(255,255,255,0.6) 40%, rgba(255,255,255,0) 100%);
+            filter: blur(3px);
+            pointer-events: none;
+        }
+
+        #loading-counter {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #ffffff;
+            letter-spacing: 0.05em;
+            margin-top: 20px;
+            opacity: 0.9;
+        }
+
+        #brand-text-wrapper {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            visibility: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+
+        #brand-text {
+            font-size: 5rem;
+            font-weight: 900;
+            color: #ffffff;
+            letter-spacing: 0.15em;
+            white-space: nowrap;
+            text-align: center;
+        }
+
+        #big-x {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            font-size: 100vw;
+            font-weight: 900;
+            color: #ffffff;
+            font-family: 'Poppins', sans-serif;
+            z-index: 10001;
+            opacity: 0;
+            line-height: 0.8;
+        }
+
+        @media (max-width: 768px) {
+            #logo-icon {
+                width: 80px;
+                height: 80px;
+                margin-bottom: 40px;
+            }
+            #loading-bar-container {
+                width: 200px;
+            }
+            #loading-counter {
+                font-size: 1.2rem;
+            }
+            #brand-text {
+                font-size: 3rem;
+            }
+            #big-x {
+                font-size: 100vw;
+            }
+        }
     </style>
 </head>
 <body class="bg-white text-gray-900">
+
+    <!-- Preloader -->
+    <div id="preloader">
+        <div id="preloader-content">
+            <div id="logo-icon">Z</div>
+            <div id="loading-bar-container">
+                <div id="loading-bar"></div>
+                <div id="loading-highlight"></div>
+            </div>
+            <div id="loading-counter">0%</div>
+        </div>
+        <div id="brand-text-wrapper">
+            <div id="brand-text"><span id="zypher-part">ZYPHER</span><span id="x-part">X</span></div>
+        </div>
+    </div>
+
+    <!-- Big X that pops at start -->
+    <div id="big-x">X</div>
+    </div>
 
     <div class="w-full mx-auto px-4 sm:px-6 lg:px-8 my-8 md:my-12">
     <div id="header-placeholder" class="mb-8">
@@ -194,44 +338,93 @@ html {
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         <div class="mb-12 md:mb-16">
-            <p class="text-gray-600 text-sm font-medium uppercase tracking-wider">E-commerce Solutions</p>
-            <h2 class="text-4xl md:text-5xl font-extrabold text-gray-900 mt-2">What We Offer</h2>
+            <p class="text-gray-600 text-sm font-medium uppercase tracking-wider">Case Studies</p>
+            <h2 class="text-4xl md:text-5xl font-extrabold text-gray-900 mt-2">Featured Projects</h2>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 border-t border-r border-gray-300">
-            
-            <div class="p-10 md:p-12 border-b border-l border-gray-300 flex flex-col items-center text-center transition duration-300 hover:bg-gray-50">
-                <div class="text-3xl text-gray-900 mb-6">
-                    &#x2699; 
+        <!-- Projects grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+
+<!-- Project 1 -->
+<div class="group bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm hover:shadow-2xl transition duration-300">
+    <div class="relative h-48 md:h-56">
+        <img src="assets/images/norizan-aircond.png" alt="Norizan Aircond Services website cover" class="w-full h-full object-cover">
+        <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition"></div>
+    </div>
+    <div class="p-6">
+        <div class="flex flex-wrap gap-2 text-xs text-gray-600 mb-3">
+            <span class="px-2 py-0.5 bg-gray-100 rounded">Business</span>
+            <span class="px-2 py-0.5 bg-gray-100 rounded">SEO</span>
+            <span class="px-2 py-0.5 bg-gray-100 rounded">Web</span>
+        </div>
+        <h3 class="text-xl font-semibold text-gray-900">Norizan Aircond Services</h3>
+        <p class="text-sm text-gray-500 mt-2">
+            Business website with SEO, WhatsApp booking, and dynamic blog for a Malaysia-based AC service provider.
+        </p>
+        <a href="#" class="mt-4 inline-flex items-center text-indigo-600 hover:text-indigo-800 text-sm font-medium">
+            View Project <span class="ml-1">→</span>
+        </a>
+    </div>
+</div>
+
+
+<!-- Project 2 -->
+<div class="group bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm hover:shadow-2xl transition duration-300">
+    <div class="relative h-48 md:h-56">
+        <img src="assets/images/farm-to-home.png" alt="Farm to Home supply chain platform cover" class="w-full h-full object-cover">
+        <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition"></div>
+    </div>
+    <div class="p-6">
+        <div class="flex flex-wrap gap-2 text-xs text-gray-600 mb-3">
+            <span class="px-2 py-0.5 bg-gray-100 rounded">Web App</span>
+            <span class="px-2 py-0.5 bg-gray-100 rounded">Supply Chain</span>
+            <span class="px-2 py-0.5 bg-gray-100 rounded">Real-Time</span>
+        </div>
+        <h3 class="text-xl font-semibold text-gray-900">Farm to Home</h3>
+        <p class="text-sm text-gray-500 mt-2">
+            Real-time web platform connecting farmers, warehouses, and customers using .NET, JavaScript, and SQL.
+        </p>
+        <a href="#" class="mt-4 inline-flex items-center text-indigo-600 hover:text-indigo-800 text-sm font-medium">
+            View Project <span class="ml-1">→</span>
+        </a>
+    </div>
+</div>
+
+
+            <!-- Project 3 -->
+            <div class="group bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm hover:shadow-2xl transition duration-300">
+                <div class="relative h-48 md:h-56">
+                    <img src="assets/images/12.png" alt="Global partner access streamlining project" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition"></div>
                 </div>
-                <h3 class="text-xl font-semibold text-gray-900 mb-2">Tailored Development</h3>
-                <p class="text-sm text-gray-500">Innovative Strategies</p>
+                <div class="p-6">
+                    <div class="flex flex-wrap gap-2 text-xs text-gray-600 mb-3">
+                        <span class="px-2 py-0.5 bg-gray-100 rounded">CX</span>
+                        <span class="px-2 py-0.5 bg-gray-100 rounded">B2B</span>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900">Global Partner Access</h3>
+                    <p class="text-sm text-gray-500 mt-2">Streamlined access for 5M+ external identities with 24/7 support coverage.</p>
+                    <a href="#" class="mt-4 inline-flex items-center text-indigo-600 hover:text-indigo-800 text-sm font-medium">View Project <span class="ml-1">→</span></a>
+                </div>
             </div>
 
-            <div class="p-10 md:p-12 border-b border-l border-gray-300 flex flex-col items-center text-center transition duration-300 hover:bg-gray-50">
-                <div class="text-3xl text-gray-900 mb-6">
-                    &#x2304; 
+            <!-- Project 4 -->
+            <div class="group bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm hover:shadow-2xl transition duration-300 md:md:col-span-2 lg:col-span-1">
+                <div class="relative h-48 md:h-56">
+                    <img src="assets/images/test.jpg" alt="Marketing site redesign project" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition"></div>
                 </div>
-                <h3 class="text-xl font-semibold text-gray-900 mb-2">SEO Expertise</h3>
-                <p class="text-sm text-gray-500">Search Engine Boost</p>
+                <div class="p-6">
+                    <div class="flex flex-wrap gap-2 text-xs text-gray-600 mb-3">
+                        <span class="px-2 py-0.5 bg-gray-100 rounded">Web</span>
+                        <span class="px-2 py-0.5 bg-gray-100 rounded">Performance</span>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900">Marketing Site Redesign</h3>
+                    <p class="text-sm text-gray-500 mt-2">Modernized UX with accessibility-first approach and measurable SEO gains.</p>
+                    <a href="#" class="mt-4 inline-flex items-center text-indigo-600 hover:text-indigo-800 text-sm font-medium">View Project <span class="ml-1">→</span></a>
+                </div>
             </div>
 
-            <div class="p-10 md:p-12 border-b border-l border-gray-300 flex flex-col items-center text-center transition duration-300 hover:bg-gray-50">
-                <div class="text-3xl text-gray-900 mb-6">
-                    &#x2022;&#x2022; 
-                </div>
-                <h3 class="text-xl font-semibold text-gray-900 mb-2">Social Engagement</h3>
-                <p class="text-sm text-gray-500">Audience Connection</p>
-            </div>
-
-            <div class="p-10 md:p-12 border-b border-l border-gray-300 flex flex-col items-center text-center transition duration-300 hover:bg-gray-50">
-                <div class="text-3xl text-gray-900 mb-6">
-                    &#x2197;
-                </div>
-                <h3 class="text-xl font-semibold text-gray-900 mb-2">Targeted Promotion</h3>
-                <p class="text-sm text-gray-500">Maximizing Returns</p>
-            </div>
-            
         </div>
     </div>
 </div>
@@ -417,6 +610,129 @@ html {
         </div>
     </div>
 </footer>
+
+<!-- GSAP Library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+
+<!-- Preloader Animation Script -->
+<script>
+// Preloader Animation using GSAP
+(function() {
+    const preloader = document.getElementById('preloader');
+    const preloaderContent = document.getElementById('preloader-content');
+    const loadingBar = document.getElementById('loading-bar');
+    const loadingHighlight = document.getElementById('loading-highlight');
+    const counter = document.getElementById('loading-counter');
+    const brandWrapper = document.getElementById('brand-text-wrapper');
+    const brandText = document.getElementById('brand-text');
+    const bigX = document.getElementById('big-x');
+
+    // Prevent scrolling during preload
+    document.body.style.overflow = 'hidden';
+
+    // Create a timeline
+    const tl = gsap.timeline({
+        onComplete: () => {
+            // Re-enable scrolling
+            document.body.style.overflow = '';
+        }
+    });
+
+    // Phase A: Loading bar and counter animation from 0 to 100
+    const counterObj = { value: 0 };
+    tl.to([counterObj, loadingBar], {
+        value: 100,
+        width: '100%',
+        duration: 2,
+        ease: 'power2.inOut',
+        onUpdate: function() {
+            counter.textContent = Math.floor(counterObj.value) + '%';
+        }
+    });
+
+    // Animate the highlight to move from left to right
+    tl.to(loadingHighlight, {
+        left: '100%',
+        duration: 1.7,
+        ease: 'power2.inOut'
+    }, '<');
+
+    // Phase B: Hide loading elements and show brand text
+    tl.to(preloaderContent, {
+        opacity: 0,
+        scale: 0.9,
+        duration: 0.35,
+        ease: 'power2.in'
+    }, '+=0.2');
+
+    // Show brand text wrapper
+    tl.set(brandWrapper, {
+        opacity: 1,
+        visibility: 'visible'
+    });
+
+    // Left-to-right reveal using clip-path
+    tl.fromTo(brandText, {
+        clipPath: 'polygon(0% 0%, 0% 0%, 0% 100%, 0% 100%)'
+    }, {
+        clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)',
+        duration: 1.6,
+        ease: 'power3.inOut'
+    });
+
+    // Pause on brand text
+    tl.to({}, { duration: 0.3 });
+
+    // Set big X at center of screen
+    gsap.set(bigX, {
+        left: '50%',
+        top: '50%',
+        xPercent: -50,
+        yPercent: -50,
+        scale: 0.3,
+        opacity: 0
+    });
+
+    // Both animations synced
+    tl.to(brandWrapper, {
+        opacity: 0,
+        duration: 0.45,
+        ease: 'linear'
+    });
+    
+    tl.fromTo(bigX, {
+        opacity: 0,
+        scale: 0.3
+    }, {
+        opacity: 1,
+        scale: 1,
+        duration: 0.45,
+        ease: 'linear'
+    }, '<');
+
+    // Brief pause
+    tl.to({}, { duration: 0.2 });
+
+    // Phase C: Exit - X fades out, then preloader fades out to reveal website
+    tl.to(bigX, {
+        opacity: 0,
+        scale: 1.2,
+        duration: 0.7,
+        ease: 'power2.out'
+    });
+    
+    tl.to(preloader, {
+        opacity: 0,
+        duration: 1,
+        ease: 'power2.inOut',
+        onComplete: () => {
+            preloader.style.display = 'none';
+            bigX.style.display = 'none';
+        }
+    }, '-=0.3');
+})();
+</script>
+
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="assets/js/main.js"></script>
     
